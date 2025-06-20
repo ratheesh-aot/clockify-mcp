@@ -2,6 +2,8 @@
 
 A Model Context Protocol (MCP) server that provides comprehensive integration with the Clockify time tracking API. This server enables automated time entry management, project organization, task tracking, and reporting through a standardized interface.
 
+Want to read as a story [Linkdein](https://www.linkedin.com/pulse/building-clockify-agent-mcp-tool-claude-ai-ratheesh-kumar-r-ousjc)
+
 ## Quick Installation (Recommended)
 
 ### Install via NPM
