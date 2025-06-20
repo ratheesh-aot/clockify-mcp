@@ -366,6 +366,19 @@ class ClockifyMCPServer {
             required: ["workspaceId", "userId"],
           },
         },
+        {
+          name: "duplicate_time_entry",
+          description: "Duplicate a time entry",
+          inputSchema: {
+            type: "object",
+            properties: {
+              workspaceId: { type: "string", description: "Workspace ID" },
+              userId: { type: "string", description: "User ID" },
+              id: { type: "string", description: "Time entry ID to duplicate" },
+            },
+            required: ["workspaceId", "userId", "id"],
+          },
+        },
 
         // Project Management
         {
@@ -730,6 +743,9 @@ class ClockifyMCPServer {
           case "stop_time_entry":
             if (!args?.workspaceId || !args?.userId) throw new McpError(ErrorCode.InvalidParams, 'workspaceId and userId are required');
             return await this.stopTimeEntry(args as any);
+          case "duplicate_time_entry":
+            if (!args?.workspaceId || !args?.userId || !args?.id) throw new McpError(ErrorCode.InvalidParams, 'workspaceId, userId and id are required');
+            return await this.duplicateTimeEntry(args as any);
 
           // Project Management
           case "create_project":
@@ -988,6 +1004,25 @@ class ClockifyMCPServer {
         {
           type: "text",
           text: `Time entry stopped at ${endTime}\nDuration: ${result.timeInterval.duration}`,
+        },
+      ],
+      isError: false,
+    };
+  }
+
+  private async duplicateTimeEntry(args: any) {
+    const { workspaceId, userId, id } = args;
+
+    const result = await this.makeRequest(
+      `/workspaces/${workspaceId}/user/${userId}/time-entries/${id}/duplicate`,
+      "POST"
+    );
+
+    return {
+      content: [
+        {
+          type: "text",
+          text: `Time entry duplicated successfully!\nID: ${result.id}\nDescription: ${result.description || "No description"}\nStart: ${result.timeInterval.start}\nEnd: ${result.timeInterval.end || "Ongoing"}\nDuration: ${result.timeInterval.duration || "N/A"}\nBillable: ${result.billable}\nProject: ${result.projectId || "No project"}`,
         },
       ],
       isError: false,
@@ -1397,6 +1432,10 @@ class ClockifyMCPServer {
       description: reportData.description,
       withoutDescription: reportData.withoutDescription,
       customFieldIds: reportData.customFieldIds,
+      sortColumn: reportData.sortColumn,
+      sortOrder: reportData.sortOrder,
+      page: reportData.page,
+      pageSize: reportData.pageSize,
       exportType: reportData.exportType || "JSON",
     };
 
