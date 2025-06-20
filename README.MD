@@ -2,6 +2,42 @@
 
 A Model Context Protocol (MCP) server that provides comprehensive integration with the Clockify time tracking API. This server enables automated time entry management, project organization, task tracking, and reporting through a standardized interface.
 
+## Quick Installation (Recommended)
+
+### Install via NPM
+```bash
+npm install -g @ratheesh-aot/clockify-mcp-server
+```
+
+### Configure Claude Desktop or any MCP client
+
+Add this to your MCP client configuration:
+
+```json
+{
+  "mcpServers": {
+    "clockify": {
+      "command": "clockify-mcp-server",
+      "env": {
+        "CLOCKIFY_API_KEY": "your_clockify_api_key"
+      }
+    }
+  }
+}
+```
+
+### Get Your Clockify API Key
+1. Log in to [Clockify](https://clockify.me)
+2. Go to Profile Settings → API
+3. Generate or copy your API key
+4. Replace `your_clockify_api_key` in the configuration above
+
+### Start Using
+Restart your MCP client (Claude Desktop) and start asking:
+- "Show me my Clockify workspaces"
+- "Create a time entry for 2 hours on Project Marketing"
+- "Get this week's time entries"
+
 ## Features
 
 ### Core Functionality
@@ -20,15 +56,22 @@ A Model Context Protocol (MCP) server that provides comprehensive integration wi
 - **Flexible Reporting**: Generate reports in multiple formats (JSON, PDF, CSV, XLSX)
 - **Production-Ready**: Error handling, validation, and robust API interactions
 
-## Prerequisites
+## Alternative Installation (Development)
 
+If you prefer to build from source or contribute to development:
+
+### Prerequisites
 - Node.js 18 or higher
 - Clockify account with API access
 - Clockify API key
 
-## Installation
+### Manual Installation
+1. Clone the repository:
+```bash
+git clone https://github.com/ratheesh-aot/clockify-mcp.git
+cd clockify-mcp
+```
 
-1. Clone or download the server files
 2. Install dependencies:
 ```bash
 npm install
@@ -39,31 +82,13 @@ npm install
 npm run build
 ```
 
-## Configuration
-
-### API Key Setup
-Set your Clockify API key as an environment variable:
-
-```bash
-export CLOCKIFY_API_KEY="your_api_key_here"
-```
-
-To get your API key:
-1. Log in to Clockify
-2. Go to Profile Settings
-3. Navigate to the API section
-4. Generate or copy your API key
-
-### MCP Client Configuration
-
-Add the server to your MCP client configuration:
-
+4. Configure with full path:
 ```json
 {
   "mcpServers": {
     "clockify": {
       "command": "node",
-      "args": ["/path/to/clockify-mcp-server/dist/index.js"],
+      "args": ["/full/path/to/clockify-mcp/dist/index.js"],
       "env": {
         "CLOCKIFY_API_KEY": "your_api_key_here"
       }
@@ -162,3 +187,45 @@ Add the server to your MCP client configuration:
   }
 }
 ```
+
+## Troubleshooting
+
+### Common Issues
+
+**"Command not found" error:**
+```bash
+# Check if installed correctly
+npm list -g @ratheesh-aot/clockify-mcp-server
+
+# Reinstall if needed
+npm uninstall -g @ratheesh-aot/clockify-mcp-server
+npm install -g @ratheesh-aot/clockify-mcp-server
+```
+
+**"Invalid API key" error:**
+- Verify your Clockify API key is correct
+- Ensure the API key has proper permissions
+- Check for extra spaces or characters
+
+**MCP connection issues:**
+- Restart your MCP client (Claude Desktop)
+- Verify the JSON configuration is valid
+- Check that Node.js is installed and accessible
+
+### Getting Help
+
+- **Issues**: [GitHub Issues](https://github.com/ratheesh-aot/clockify-mcp/issues)
+- **Documentation**: [Clockify API Docs](https://docs.clockify.me/)
+- **MCP Protocol**: [Model Context Protocol](https://modelcontextprotocol.io/)
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+MIT License - see [LICENSE](LICENSE) file for details.
+
+## Author
+
+Created by [Ratheesh Kumar](https://github.com/ratheesh-aot)
